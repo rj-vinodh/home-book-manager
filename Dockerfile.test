@@ -1,0 +1,15 @@
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt pytest
+
+COPY app.py books_app.py test_app.py ./
+RUN mkdir -p /app/data /app/outputs
+
+CMD ["pytest", "-q", "test_app.py"]
