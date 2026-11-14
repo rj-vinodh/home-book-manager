@@ -1,4 +1,4 @@
-# Book Extract Only
+# Home Book Manager
 
 This project extracts frames from video files, lets you select book covers, and sends the selected images to a local OpenAI-compatible model to extract metadata such as title, author, publisher, ISBN, and notes.
 
