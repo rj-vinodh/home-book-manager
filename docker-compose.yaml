@@ -1,0 +1,30 @@
+services:
+  # Your original app (port 7860)
+  app:
+    build: .
+    image: books
+    command: ["python", "app.py"]
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./outputs:/app/outputs
+    restart: unless-stopped
+
+  # Book search app (port 7861)
+  books:
+    build: .
+    image: books
+    command: ["python", "books_app.py"]
+    ports:
+      - "7861:7861"
+    volumes:
+      - ./data:/app/data            # books.db, covers and CSV exports live here
+    environment:
+      BOOKS_PORT: "7861"
+      DATA_DIR: /app/data
+      # "localhost" inside a container is the container itself; this reaches your Mac
+      EMBED_URL: http://host.docker.internal:9931
+      EMBED_MODEL: ggml-org/embeddinggemma-2-GGUF:Q8_0
+      EMBED_API_KEY: no-key
+      EMBED_DIM: "768"
+    restart: unless-stopped
